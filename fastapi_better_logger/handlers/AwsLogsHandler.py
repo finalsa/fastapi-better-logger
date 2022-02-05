@@ -1,7 +1,8 @@
-from logging import Handler, _Level, LogRecord
+from logging import Handler, LogRecord
 from warnings import warn
 from os import getpid
 from sys import argv
+from boto3 import client
 from datetime import datetime
 from threading import current_thread, Semaphore
 from queue import Queue
@@ -18,7 +19,7 @@ class AwsLogHandler(Handler):
     queues: Mapping[str, Queue]
     
 
-    def __init__(self, level: _Level = ...) -> None:
+    def __init__(self, level = ...) -> None:
         super().__init__(level)
         
     

@@ -36,6 +36,18 @@ def get_packages(package):
         if os.path.exists(os.path.join(dirpath, "__init__.py"))
     ]
 
+env_marker_below_38 = "python_version < '3.8'"
+
+minimal_requirements = [
+    "boto3>=1.20.49",
+    "click>=7.0",
+    "typing-extensions;" + env_marker_below_38,
+]
+
+
+extra_requirements = [
+    "orjson>=1.3.1",
+]
 
 setup(
     name=PACKAGE,
@@ -47,9 +59,7 @@ setup(
     long_description_content_type="text/markdown",
     keywords=[
         "fastapi",
-        "sqlalchemy",
-        "ormar",
-        "pydantic",
+        "logger",
     ],
     author="Luis Jimenez",
     author_email="luis@finalsa.com",
@@ -59,23 +69,17 @@ setup(
     zip_safe=True,
     python_requires=">=3.7",
     data_files=[("", ["LICENSE.md"])],
-    install_requires=[
-        "aiosqlite>=0.17.0",
-        "argon2-cffi>=21.3.0",
-        "ormar>=0.10.24",
-        'pydantic>=1.8.2',
-        "fastapi>=0.70.0",
-        "typing_extensions>=3.7,<3.10.0.3",
-        "watchtower>=3.0.0",
-        "boto3>=1.20.3"
-    ],
-    extras_require={
-        "postgresql": ["asyncpg", "psycopg2-binary"],
-        "mysql": ["aiomysql", "pymysql"],
-        "sqlite": ["aiosqlite"],
-        "orjson": ["orjson"],
-        "crypto": ["cryptography"],
-    },
+    install_requires=minimal_requirements,
+    extras_require={"standard": extra_requirements},
     classifiers=[
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: BSD License",
+        "Operating System :: OS Independent",
+        "Topic :: Internet :: WWW/HTTP",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
 )
