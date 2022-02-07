@@ -52,8 +52,8 @@ class DefaultFormatter(logging.Formatter):
             full_path,
             http_version,
             status_code,
-
         ) = recordcopy.args
+        print(client_addr, method, full_path, http_version, status_code)
         status_code = self.get_status_code(int(status_code))
         request_line = "%s %s HTTP/%s" % (method, full_path, http_version)
         recordcopy.__dict__.update(
@@ -68,7 +68,5 @@ class DefaultFormatter(logging.Formatter):
 
 
     def get_record_attributes(self, record: logging.LogRecord) -> logging.LogRecord:
-        try:
-            return self.get_http_attributes(record)
-        except ValueError:
-            return record
+        return self.get_http_attributes(record)
+       
