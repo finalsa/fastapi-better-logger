@@ -15,11 +15,12 @@ handler = logging.StreamHandler()
 
 def log_from_logger(args:dict= {}):
     global logger
-    logger.debug("", "GET",  "/",  "HTTP/1.1",  20)
-    logger.info("", "GET",  "/",  "HTTP/1.1",  20)
-    logger.warning("", "GET",  "/",  "HTTP/1.1",  20)
-    logger.error("", "GET",  "/",  "HTTP/1.1",  20)
-    logger.critical("", "GET",  "/",  "HTTP/1.1",  20)
+    message = " [%s] Receive %s"
+    logger.debug(message, args)
+    logger.info("Info message",  args)
+    logger.warning("Warning message", args)
+    logger.error("Error message", args)
+    logger.critical("Critical ", args)
 
 
 def log_from_logger_na():
@@ -43,5 +44,7 @@ log_from_logger_na()
 handler.setFormatter(ColoredAccessFormatter('%(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'))
 
 
-log_from_logger({})
+
+
+log_from_logger({"client_addr" :  "", "method" : "GET", "full_path" : "/", "http_version" : "HTTP/1.1", "status_code" : 200})
 
