@@ -40,7 +40,7 @@ jobs:
     - name: Test with pytest
       run: |
         pip install requests
-        pip install pytest-asyncio
+        pip install pytest
         pip install -e .
         pytest
         

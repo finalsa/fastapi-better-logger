@@ -1,9 +1,11 @@
 import logging
 
+from unittest import TestCase
 
 from fastapi_better_logger import(
     AwsFormatter, AwsAccessFormatter
 )
+
 
 
 logger = logging.Logger(__name__)
@@ -26,20 +28,20 @@ def log_from_logger_na():
     logger.error("Error message", )
     logger.critical("Critical ", )
 
-handler.setFormatter(AwsFormatter('%(levelprefix)s %(message)s (%(filename)s:%(lineno)d)'))
-logger.addHandler(handler)
-
-log_from_logger_na()
-
-handler.setFormatter(AwsFormatter('%(levelprefix)s %(message)s [%(filename)s:%(lineno)d]'))
-
-log_from_logger_na()
+def test_logger_creation():
 
 
-handler.setFormatter(AwsAccessFormatter('%(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'))
+    handler.setFormatter(AwsFormatter('%(levelprefix)s %(message)s (%(filename)s:%(lineno)d)'))
+    logger.addHandler(handler)
+    assert len(logger.handlers) == 1
+    log_from_logger_na()
+
+    handler.setFormatter(AwsFormatter('%(levelprefix)s %(message)s [%(filename)s:%(lineno)d]'))
+
+    log_from_logger_na()
 
 
+    handler.setFormatter(AwsAccessFormatter('%(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'))
 
-
-log_from_logger({"client_addr" :  "ssaaaa", "method" : "GET", "full_path" : "/", "http_version" : "1.1", "status_code" : 200})
+    log_from_logger({"client_addr" :  "ssaaaa", "method" : "GET", "full_path" : "/", "http_version" : "1.1", "status_code" : 200})
 
