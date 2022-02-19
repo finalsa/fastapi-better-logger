@@ -46,18 +46,18 @@ class DefaultFormatter(logging.Formatter):
     
     def get_http_attributes(self, record: logging.LogRecord) -> logging.LogRecord:
         recordcopy = copy(record)
-        (
-            client_addr,
-            method,
-            full_path,
-            http_version,
-            status_code,
-        ) = recordcopy.args
-        print(client_addr, method, full_path, http_version, status_code)
+        client_addr = recordcopy.args.get("client_addr")
+        method = recordcopy.args.get("method")
+        full_path = recordcopy.args.get("full_path")
+        http_version = recordcopy.args.get("http_version")
+        status_code = recordcopy.args.get("status_code")
         status_code = self.get_status_code(int(status_code))
         request_line = "%s %s HTTP/%s" % (method, full_path, http_version)
         recordcopy.__dict__.update(
             {
+                "method": method,
+                "full_path": full_path,
+                "http_version": http_version,
                 "client_addr": client_addr,
                 "request_line": request_line,
                 "status_code": status_code,
@@ -65,6 +65,12 @@ class DefaultFormatter(logging.Formatter):
         )
         return recordcopy
 
+    def formatMessage(self, record: logging.LogRecord) -> str:
+        recordcopy = copy(record)
+        levelname = recordcopy.levelname
+        seperator = " " * (8 - len(recordcopy.levelname))
+        recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
+        return super().formatMessage(recordcopy)
 
 
     def get_record_attributes(self, record: logging.LogRecord) -> logging.LogRecord:

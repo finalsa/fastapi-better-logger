@@ -27,7 +27,14 @@ class AwsFormatter(DefaultFormatter, logging.Formatter):
         if add_log_record_attrs is not None:
             self.add_log_record_attrs = add_log_record_attrs
         else:
-            self.add_log_record_attrs = ["client_addr", "request_line", "status_code", "method", "full_path", "http_version"]
+            self.add_log_record_attrs = [
+                "client_addr", 
+                "request_line", 
+                "status_code", 
+                "method", 
+                "full_path", 
+                "http_version"
+            ]
     
     def _json_serialize_default(self,o):
         """
@@ -43,8 +50,9 @@ class AwsFormatter(DefaultFormatter, logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         msg = {
-            "log_level": record.levelname,
-            "message":  super().format(record)
+            "timestamp": datetime.strftime(datetime.utcfromtimestamp(record.created), self.datefmt),                       
+            "level": record.levelname,
+            "message":  super().format(record),
         }
         if record.exc_info and not record.exc_text:
             msg["message.exception"] = self.formatException(record.exc_info)    
@@ -52,7 +60,7 @@ class AwsFormatter(DefaultFormatter, logging.Formatter):
             msg["message.exc_text"] = record.exc_text
         if record.stack_info:
             msg["stack_trace"] = self.formatStack(record.stack_info,)
-      
+
         for field in self.add_log_record_attrs:
             value = getattr(record, field, None)
             if(value):

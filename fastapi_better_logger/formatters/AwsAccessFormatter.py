@@ -5,4 +5,4 @@ class AwsAccessFormatter(AwsFormatter):
 
     def format(self, record: LogRecord) -> str:
         record = self.get_record_attributes(record)
-        return super().formatMessage(record)
+        return super().format(record)

@@ -15,8 +15,7 @@ handler = logging.StreamHandler()
 
 def log_from_logger(args:dict= {}):
     global logger
-    message = " [%s] Receive %s"
-    logger.debug(message, args)
+    logger.debug("Debug message ", args)
     logger.info("Info message",  args)
     logger.warning("Warning message", args)
     logger.error("Error message", args)
@@ -46,5 +45,5 @@ handler.setFormatter(ColoredAccessFormatter('%(levelprefix)s %(client_addr)s - "
 
 
 
-log_from_logger({"client_addr" :  "", "method" : "GET", "full_path" : "/", "http_version" : "HTTP/1.1", "status_code" : 200})
+log_from_logger({"client_addr" :  "ssaaaa", "method" : "GET", "full_path" : "/", "http_version" : "1.1", "status_code" : 200})
 
