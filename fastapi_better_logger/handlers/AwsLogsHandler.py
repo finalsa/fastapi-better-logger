@@ -1,5 +1,5 @@
 from watchtower import CloudWatchLogHandler
-from formatters import AwsFormatter, AwsAccessFormatter
+from fastapi_better_logger.formatters import AwsFormatter, AwsAccessFormatter
 import botocore
 
 
