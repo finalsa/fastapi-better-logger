@@ -42,6 +42,7 @@ minimal_requirements = [
     "boto3>=1.20.49",
     "click>=7.0",
     "typing-extensions;" + env_marker_below_38,
+    "watchtower==3.0.0",
 ]
 
 

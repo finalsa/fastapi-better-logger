@@ -33,7 +33,8 @@ class AwsFormatter(DefaultFormatter, logging.Formatter):
                 "status_code", 
                 "method", 
                 "full_path", 
-                "http_version"
+                "http_version",
+                "body",
             ]
     
     def _json_serialize_default(self,o):

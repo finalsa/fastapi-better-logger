@@ -1,74 +1,97 @@
-from logging import Handler, LogRecord
-from warnings import warn
-from os import getpid
-from sys import argv
-from boto3 import client
-from datetime import datetime
-from threading import current_thread, Semaphore
-from queue import Queue
-from ..formatters import AwsFormatter
-from typing import List, Optional, Union, Mapping
+from watchtower import CloudWatchLogHandler
+from formatters import AwsFormatter, AwsAccessFormatter
+import botocore
 
 
-_defaultFormatter = AwsFormatter("")
+class AwsLogHandler(CloudWatchLogHandler):
 
-class AwsLogHandler(Handler):
+    def __init__(
+        self,
+        log_group_name: str = ...,
+        log_stream_name: str = ...,
+        use_queues: bool = True,
+        send_interval: int = 60,
+        max_batch_size: int = 1024 * 1024,
+        max_batch_count: int = 10000,
+        boto3_client: botocore.client.BaseClient = None,
+        boto3_profile_name: str = None,
+        create_log_group: bool = True,
+        json_serialize_default: callable = None,
+        log_group_retention_days: int = None,
+        create_log_stream: bool = True,
+        max_message_size: int = 256 * 1024,
+        log_group=None,
+        stream_name=None,
+        *args,
+        **kwargs
+    ):
+        super().__init__(
+            log_group_name,
+            log_stream_name,
+            use_queues,
+            send_interval,
+            max_batch_size,
+            max_batch_count,
+            boto3_client,
+            boto3_profile_name,
+            create_log_group,
+            json_serialize_default,
+            log_group_retention_days,
+            create_log_stream,
+            max_message_size,
+            log_group,
+            stream_name,
+            *args,
+            **kwargs
+        )
+        self.formatter = AwsFormatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            json_serialize_default=json_serialize_default,
+        )
 
-    creating_log_stream: Semaphore
-    shutting_down: Semaphore
-    queues: Mapping[str, Queue]
-    
 
-    def __init__(self, level = ...) -> None:
-        super().__init__(level)
-        
-    
-    def emit(self, record: LogRecord) -> None:
-        pass
+class AwsAccessLogHandler(CloudWatchLogHandler):
 
-    def acquire(self):
-        """
-        Acquire the I/O thread lock.
-        """
-        if self.lock:
-            self.lock.acquire()
-
-    def release(self):
-        """
-        Release the I/O thread lock.
-        """
-        if self.lock:
-            self.lock.release()
-
-    def format(self, record):
-        """
-        Format the specified record.
-
-        If a formatter is set, use it. Otherwise, use the default formatter
-        for the module.
-        """
-        if self.formatter:
-            fmt = self.formatter
-        else:
-            fmt = _defaultFormatter
-        return fmt.format(record)
-
-    def flush(self):
-        """
-        Ensure all logging output has been flushed.
-
-        This version does nothing and is intended to be implemented by
-        subclasses.
-        """
-        self.shutting_down
-
-    def close(self):
-        """
-        Tidy up any resources used by the handler.
-
-        This version removes the handler from an internal map of handlers,
-        _handlers, which is used for handler lookup by name. Subclasses
-        should ensure that this gets called from overridden close()
-        methods.
-        """
-        super().close()
+    def __init__(
+        self,
+        log_group_name: str = ...,
+        log_stream_name: str = ...,
+        use_queues: bool = True,
+        send_interval: int = 60,
+        max_batch_size: int = 1024 * 1024,
+        max_batch_count: int = 10000,
+        boto3_client: botocore.client.BaseClient = None,
+        boto3_profile_name: str = None,
+        create_log_group: bool = True,
+        json_serialize_default: callable = None,
+        log_group_retention_days: int = None,
+        create_log_stream: bool = True,
+        max_message_size: int = 256 * 1024,
+        log_group=None,
+        stream_name=None,
+        *args,
+        **kwargs
+    ):
+        super().__init__(
+            log_group_name,
+            log_stream_name,
+            use_queues,
+            send_interval,
+            max_batch_size,
+            max_batch_count,
+            boto3_client,
+            boto3_profile_name,
+            create_log_group,
+            json_serialize_default,
+            log_group_retention_days,
+            create_log_stream,
+            max_message_size,
+            log_group,
+            stream_name,
+            *args,
+            **kwargs
+        )
+        self.formatter = AwsAccessFormatter(
+            '%(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s',
+            json_serialize_default=json_serialize_default,
+        )
