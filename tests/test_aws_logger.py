@@ -11,8 +11,10 @@ from unittest import TestCase
 
 
 from fastapi_better_logger import(
-   AWS_DEFAULT_CONFIG
+   AWS_DEFAULT_CONFIG, DEFAULT_CONFIG
 )
+
+AWS_DEFAULT_CONFIG["handlers"] = DEFAULT_CONFIG["handlers"]
 
 logging.config.dictConfig(AWS_DEFAULT_CONFIG)
 

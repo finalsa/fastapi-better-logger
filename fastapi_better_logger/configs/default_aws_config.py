@@ -18,7 +18,6 @@ AWS_DEFAULT_CONFIG: dict = {
             "log_group_name" : "test_log_group_name",
             "log_stream_name" : "test_log_stream_name",
             "use_queues": True,
-
         },
         "access": {
             "formatter": "access",
@@ -29,8 +28,10 @@ AWS_DEFAULT_CONFIG: dict = {
         },
     },
     "loggers": {
+        "fastapi": {"handlers": ["default"], "level": "INFO", "propagate": False},
+        "fastapi.logger": {"handlers": ["access"], "level": "DEBUG", "propagate": False},
         "uvicorn": {"handlers": ["default"], "level": "INFO"},
         "uvicorn.error": {"level": "INFO"},
-        "uvicorn.access": {"handlers": ["access"], "level": "INFO"},
+        "uvicorn.access": {"handlers": ["access"], "level": "INFO", "propagate": False},
     },
 }

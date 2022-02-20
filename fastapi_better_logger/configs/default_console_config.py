@@ -30,6 +30,6 @@ DEFAULT_CONFIG: dict = {
         "fastapi.logger": {"handlers": ["access"], "level": "DEBUG", "propagate": False},
         "uvicorn": {"handlers": ["default"], "level": "INFO"},
         "uvicorn.error": {"level": "INFO"},
-        "uvicorn.access": {"handlers": ["access"], "level": "DEBUG", "propagate": False},
+        "uvicorn.access": {"handlers": ["access"], "level": "INFO", "propagate": False},
     },
 }
