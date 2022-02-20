@@ -2,9 +2,14 @@ DEFAULT_CONFIG: dict = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
+        "alembic": {
+            "()": "fastapi_better_logger.ColoredFormatter",
+            "fmt": "%(levelprefix)s ALEMBIC: %(message)s [%(filename)s:%(lineno)d]",
+            "use_colors": True,
+        },
         "default": {
             "()": "fastapi_better_logger.ColoredFormatter",
-            "fmt": "%(levelprefix)s %(message)s (%(filename)s:%(lineno)d)",
+            "fmt": "%(levelprefix)s %(message)s [%(filename)s:%(lineno)d]",
             "use_colors": True,
         },
         "access": {
@@ -14,6 +19,11 @@ DEFAULT_CONFIG: dict = {
         },
     },
     "handlers": {
+        "alembic": {
+            "class": "logging.StreamHandler",
+            "formatter": "alembic",
+            "stream": "ext://sys.stderr",
+        },  
         "default": {
             "formatter": "default",
             "class": "logging.StreamHandler",
@@ -26,6 +36,8 @@ DEFAULT_CONFIG: dict = {
         },
     },
     "loggers": {
+        "alembic.runtime.migration" : {"handlers": ["alembic"], "level": "WARNING", "propagate": False},
+        "sqlalchemy.engine.Engine" : {"handlers": ["alembic"], "level": "INFO", "propagate": False},
         "fastapi": {"handlers": ["default"], "level": "INFO", "propagate": False},
         "fastapi.logger": {"handlers": ["access"], "level": "DEBUG", "propagate": False},
         "uvicorn": {"handlers": ["default"], "level": "INFO"},
