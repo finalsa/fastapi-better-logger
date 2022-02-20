@@ -1,3 +1,4 @@
+from copy import copy
 import logging
 try:
     SHOULD_CONVERT_TO_UNICODE = True
@@ -50,6 +51,9 @@ class AwsFormatter(DefaultFormatter, logging.Formatter):
 
 
     def format(self, record: logging.LogRecord) -> str:
+        levelname = record.levelname
+        seperator = " " * (8 - len(record.levelname))
+        record.__dict__["levelprefix"] = levelname + ":" + seperator
         msg = {
             "timestamp": datetime.strftime(datetime.utcfromtimestamp(record.created), self.datefmt),                       
             "level": record.levelname,
@@ -71,4 +75,3 @@ class AwsFormatter(DefaultFormatter, logging.Formatter):
         if(SHOULD_CONVERT_TO_UNICODE):
             result = result.decode("utf-8")
         return result
-

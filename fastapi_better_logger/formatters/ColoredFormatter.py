@@ -51,7 +51,7 @@ class ColoredFormatter(DefaultFormatter):
         if self.use_colors:
             levelname = self.color_level_name(levelname, recordcopy.levelno)
             if "color_message" in recordcopy.__dict__:
-                recordcopy.msg = recordcopy.__dict__["color_message"]
-                recordcopy.__dict__["message"] = recordcopy.getMessage()
+                    recordcopy.msg = recordcopy.__dict__["color_message"]
+                    recordcopy.__dict__["message"] = recordcopy.getMessage()
         recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
-        return super().formatMessage(recordcopy)
+        return  super().formatMessage(recordcopy)

@@ -6,7 +6,7 @@ from fastapi_better_logger.formatters import(
     AwsAccessFormatter
 )
 from fastapi_better_logger.handlers import (
-    AwsLogsHandler,
+    AwsLogHandler,
     AwsAccessLogHandler
 )
 from fastapi_better_logger.configs import (
@@ -22,7 +22,7 @@ __all__ = [
     "DefaultFormatter",
     "ColoredFormatter",
     "AwsFormatter",
-    "AwsLogsHandler",
+    "AwsLogHandler",
     "AwsAccessLogHandler",
     "ColoredAccessFormatter",
     "AwsAccessFormatter",

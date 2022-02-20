@@ -66,11 +66,7 @@ class DefaultFormatter(logging.Formatter):
         return recordcopy
 
     def formatMessage(self, record: logging.LogRecord) -> str:
-        recordcopy = copy(record)
-        levelname = recordcopy.levelname
-        seperator = " " * (8 - len(recordcopy.levelname))
-        recordcopy.__dict__["levelprefix"] = levelname + ":" + seperator
-        return super().formatMessage(recordcopy)
+        return super().formatMessage(record)
 
 
     def get_record_attributes(self, record: logging.LogRecord) -> logging.LogRecord:

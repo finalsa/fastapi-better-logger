@@ -1,16 +1,23 @@
 import logging
+import logging.config
+
+import sys 
+import os
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+
 
 from fastapi_better_logger import(
-    ColoredFormatter, ColoredAccessFormatter
+    DEFAULT_CONFIG
 )
 
 
-logger = logging.Logger(__name__)
-handler = logging.StreamHandler()
+logging.config.dictConfig(DEFAULT_CONFIG)
 
 def log_from_logger(args:dict= {}):
-    global logger
-    logger.debug("Debug message ", args)
+    logger = logging.getLogger("uvicorn.access")
+    assert len(logger.handlers) == 1
+    logger.debug("Debug message", args)
     logger.info("Info message",  args)
     logger.warning("Warning message", args)
     logger.error("Error message", args)
@@ -18,7 +25,8 @@ def log_from_logger(args:dict= {}):
 
 
 def log_from_logger_na():
-    global logger
+    logger = logging.getLogger("uvicorn")
+    assert len(logger.handlers) == 1
     logger.debug("Debug message ", )
     logger.info("Info message",  )
     logger.warning("Warning message", )
@@ -27,17 +35,11 @@ def log_from_logger_na():
 
 
 def test_logger_console():
-    handler.setFormatter(ColoredFormatter('%(levelprefix)s %(message)s (%(filename)s:%(lineno)d)'))
-    logger.addHandler(handler)
 
     log_from_logger_na()
-    assert len(logger.handlers) == 1
-    handler.setFormatter(ColoredFormatter('%(levelprefix)s %(message)s [%(filename)s:%(lineno)d]'))
-
+   
     log_from_logger_na()
-
-
-    handler.setFormatter(ColoredAccessFormatter('%(levelprefix)s %(client_addr)s - "%(request_line)s" %(status_code)s'))
 
     log_from_logger({"client_addr" :  "ssaaaa", "method" : "GET", "full_path" : "/", "http_version" : "1.1", "status_code" : 200})
 
+test_logger_console()
