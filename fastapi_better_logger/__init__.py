@@ -14,7 +14,7 @@ from fastapi_better_logger.configs import (
     AWS_DEFAULT_CONFIG
 )
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 __all__ = [
     "DEFAULT_CONFIG",
