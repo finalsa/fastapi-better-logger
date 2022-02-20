@@ -2,7 +2,7 @@ import logging
 import http
 import sys
 import click
-from typing import Optional
+from typing import Optional, Tuple
 from copy import copy
 
 
@@ -46,11 +46,18 @@ class DefaultFormatter(logging.Formatter):
     
     def get_http_attributes(self, record: logging.LogRecord) -> logging.LogRecord:
         recordcopy = copy(record)
-        client_addr = recordcopy.args.get("client_addr")
-        method = recordcopy.args.get("method")
-        full_path = recordcopy.args.get("full_path")
-        http_version = recordcopy.args.get("http_version")
-        status_code = recordcopy.args.get("status_code")
+        if isinstance(record.args, dict) :
+            client_addr = recordcopy.args.get("client_addr")
+            method = recordcopy.args.get("method")
+            full_path = recordcopy.args.get("full_path")
+            http_version = recordcopy.args.get("http_version")
+            status_code = recordcopy.args.get("status_code")
+        if isinstance(record.args, Tuple):
+            client_addr = recordcopy.args[0]
+            method = recordcopy.args[1]
+            full_path = recordcopy.args[2]
+            http_version = recordcopy.args[3]
+            status_code = recordcopy.args[4]
         status_code = self.get_status_code(int(status_code))
         request_line = "%s %s HTTP/%s" % (method, full_path, http_version)
         recordcopy.__dict__.update(

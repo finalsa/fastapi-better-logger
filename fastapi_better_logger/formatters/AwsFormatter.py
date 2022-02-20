@@ -1,4 +1,3 @@
-from copy import copy
 import logging
 try:
     SHOULD_CONVERT_TO_UNICODE = True
@@ -58,6 +57,10 @@ class AwsFormatter(DefaultFormatter, logging.Formatter):
             "timestamp": datetime.strftime(datetime.utcfromtimestamp(record.created), self.datefmt),                       
             "level": record.levelname,
             "message":  super().format(record),
+            "lineno": record.lineno,
+            "file": record.filename,
+            "path": record.pathname,
+            "logger": record.name,
         }
         if record.exc_info and not record.exc_text:
             msg["message.exception"] = self.formatException(record.exc_info)    
