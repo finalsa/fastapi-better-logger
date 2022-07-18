@@ -36,6 +36,7 @@ def get_packages(package):
         if os.path.exists(os.path.join(dirpath, "__init__.py"))
     ]
 
+
 env_marker_below_38 = "python_version < '3.8'"
 
 minimal_requirements = [
@@ -44,7 +45,6 @@ minimal_requirements = [
     "typing-extensions;" + env_marker_below_38,
     "watchtower==3.0.0",
 ]
-
 
 extra_requirements = [
     "orjson>=1.3.1",

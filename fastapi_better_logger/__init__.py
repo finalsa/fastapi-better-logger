@@ -1,4 +1,4 @@
-from fastapi_better_logger.formatters import(
+from fastapi_better_logger.formatters import (
     DefaultFormatter,
     ColoredFormatter,
     ColoredAccessFormatter,
@@ -14,7 +14,7 @@ from fastapi_better_logger.configs import (
     AWS_DEFAULT_CONFIG
 )
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 __all__ = [
     "DEFAULT_CONFIG",

@@ -23,7 +23,7 @@ DEFAULT_CONFIG: dict = {
             "class": "logging.StreamHandler",
             "formatter": "alembic",
             "stream": "ext://sys.stderr",
-        },  
+        },
         "default": {
             "formatter": "default",
             "class": "logging.StreamHandler",
@@ -36,8 +36,8 @@ DEFAULT_CONFIG: dict = {
         },
     },
     "loggers": {
-        "alembic.runtime.migration" : {"handlers": ["alembic"], "level": "WARNING", "propagate": False},
-        "sqlalchemy.engine.Engine" : {"handlers": ["alembic"], "level": "INFO", "propagate": False},
+        "alembic.runtime.migration": {"handlers": ["alembic"], "level": "WARNING", "propagate": False},
+        "sqlalchemy.engine.Engine": {"handlers": ["alembic"], "level": "INFO", "propagate": False},
         "fastapi": {"handlers": ["default"], "level": "INFO", "propagate": False},
         "fastapi.logger": {"handlers": ["access"], "level": "DEBUG", "propagate": False},
         "uvicorn": {"handlers": ["default"], "level": "INFO"},
