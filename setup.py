@@ -40,10 +40,10 @@ def get_packages(package):
 env_marker_below_38 = "python_version < '3.8'"
 
 minimal_requirements = [
-    "boto3>=1.20.49",
-    "click>=7.0",
+    "boto3>=1.33.12",
+    "click>=8.0",
     "typing-extensions;" + env_marker_below_38,
-    "watchtower==3.0.0",
+    "watchtower>=3.0.0",
 ]
 
 extra_requirements = [
